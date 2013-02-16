@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'timecop'
 
-  s.files        = Dir.glob('{bin,lib}/**/*') + %w(LICENSE README.md)
+  s.files        = Dir.glob('{bin,lib,ext}/**/*') + %w(LICENSE README.md)
   s.executables  = ['id_server']
   s.require_path = 'lib'
 end
