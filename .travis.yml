@@ -29,4 +29,4 @@ before_install:
   - sudo make install
   - cd ..
 before_script:
-  - bin/id_server &
+  - bundle exec bin/id_server &
