@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'rubygems'
+require 'id_service/server'
+
+opts = OptionParser.new do |opts|
+  opts.banner = "IDServer: a Thrift-based ID generation service"
+  opts.define_head "Usage: id_server [options]"
+  opts.separator ""
+  opts.separator "Examples:"
+  opts.separator "  id_server --port 9000"
+  opts.separator "  id_server --host 25 --worker 2"
+  opts.separator ""
+  opts.separator "Options:"
+
+  opts.on('--host [HOST]') do |v|
+    @host = v
+  end
+
+  opts.on('--port [PORT]') do |v|
+    @port = v
+  end
+
+  opts.on('--host_id [ID]') do |v|
+    @host_id = v
+  end
+
+  opts.on('--worker_id [ID]') do |v|
+    @worker_id = v
+  end
+
+  opts.on('--debug') do |v|
+    @debug = true unless v.nil?
+  end
+end
+opts.parse!
+
+options = {
+    hostname: @host,
+    port:     @port,
+    host:     @host_id,
+    worker:   @worker_id,
+    debug:    @debug
+}.delete_if {|key, value| value.nil? }
+
+server = IdService::Server.new(options)
+server.serve

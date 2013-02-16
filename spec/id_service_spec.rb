@@ -1,23 +1,24 @@
 require 'spec_helper'
 
+require 'id_service/server'
+require 'id_service/client'
+
 describe 'ID Service' do
-  let(:response_body) { JSON.parse(page.body) }
+  before :all do
+    @client = IdService::Client.new
+    @client.open
+  end
 
-  describe 'GET /id' do
-    before :each do
-      visit id_url
-    end
-
-    it 'returns an integer in the \'id\' field' do
-      response_body['id'].should be_a Integer
+  describe '#get_id' do
+    it 'returns an integer' do
+      @client.get_id.should be_a Integer
     end
 
     it 'returns only unique ids' do
       ids = []
 
-      1_000.times do
-        visit id_url
-        ids << response_body['id']
+      10_000.times do
+        ids << @client.get_id
       end
 
       ids.uniq.size.should eq(ids.size)
@@ -26,9 +27,8 @@ describe 'ID Service' do
     it 'returns only sequential ids' do
       ids = []
 
-      1_000.times do
-        visit id_url
-        ids << response_body['id']
+      10_000.times do
+        ids << @client.get_id
       end
 
       ids.each_index do |i|
@@ -38,11 +38,11 @@ describe 'ID Service' do
       end
     end
 
-    it 'returns ids very fast (500 ids/sec)' do
+    it 'returns ids very fast (1,000 ids/sec)' do
       start_time = Time.now.to_i
 
-      5_000.times do
-        visit id_url
+      10_000.times do
+        @client.get_id
       end
 
       end_time = Time.now.to_i

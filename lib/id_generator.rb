@@ -2,7 +2,7 @@ require 'active_support/core_ext'
 
 #require 'celluloid'
 
-class InvalidSystemClock < StandardError; end
+require 'id_service/types'
 
 class IdGenerator
   #include Celluloid
@@ -30,16 +30,19 @@ class IdGenerator
   def initialize(options = {})
     options.symbolize_keys!
 
-    raise ArgumentError, 'missing host id' unless options[:host].is_a? Integer
-    raise ArgumentError, 'missing worker id' unless options[:worker].is_a? Integer
+    raise ArgumentError, 'missing host id' if options[:host].nil?
+    raise ArgumentError, 'missing worker id' if options[:worker].nil?
 
-    @host       = options[:host]
-    @worker     = options[:worker]
+    @debug      = options[:debug]
+    @host       = options[:host].to_i
+    @worker     = options[:worker].to_i
     @sequence   = 0
     @last_stamp = -1
+
+    puts 'Initialized IdGenerator' if @debug
   end
 
-  def get_next_id
+  def get_id
     now = get_timestamp
 
     raise InvalidSystemClock if now < @last_stamp
@@ -57,7 +60,9 @@ class IdGenerator
 
     @last_stamp = now
 
-    (now << TIMESTAMP_SHIFT) | (@host << HOST_ID_SHIFT) | (@worker << WORKER_ID_SHIFT) | @sequence
+    id = (now << TIMESTAMP_SHIFT) | (@host << HOST_ID_SHIFT) | (@worker << WORKER_ID_SHIFT) | @sequence
+    puts "Generated ID: #{id}" if @debug
+    id
   end
 
   def get_timestamp
@@ -67,6 +72,7 @@ class IdGenerator
   private
 
   def sleep_until_next_millisecond
+    puts 'Waiting for next milliseconds' if @debug
     false until get_timestamp > @last_stamp
   end
 end

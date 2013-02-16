@@ -1,9 +1,14 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'simplecov'
+SimpleCov.start do
+  add_filter "/spec/"
+  add_filter "/bin/"
+end
+
 $:.unshift File.dirname(File.join('../../lib', __FILE__))
 
-require 'capybara/dsl'
 require 'timecop'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -11,6 +16,4 @@ require 'timecop'
 
 RSpec.configure do |config|
   config.order = 'random'
-
-  config.include(Capybara::DSL)
 end
