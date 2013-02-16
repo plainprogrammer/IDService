@@ -22,6 +22,6 @@ before_install:
   - sudo gpg --keyserver hkp://subkeys.pgp.net --recv-keys 16126D3A3E5C1192
   - sudo gpg --export --armor 16126D3A3E5C1192 | sudo apt-key add -
   - sudo apt-get update -qq -y
-  - sudo apt-get install thrift -qq -y
+  - sudo apt-get install ruby-thrift -qq -y
 before_script:
   - bundle exec bin/id_server &
