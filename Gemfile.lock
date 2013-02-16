@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    id_service (0.1.0)
+    id_service (0.1.1)
       activesupport
       thrift
 
