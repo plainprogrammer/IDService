@@ -5,16 +5,16 @@ $:.unshift lib unless $:.include?(lib)
 require 'id_service/version'
 
 Gem::Specification.new do |s|
-  s.name        = "id_service"
+  s.name        = 'id_service'
   s.version     = IdService::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['James Thompson']
-  s.email       = ['jamest@thereadyproject.com']
-  s.homepage    = "http://github.com/readyproject/id_service"
-  s.summary     = "A client and server for sequential & unique id generation"
-  s.description = "IdService provides a client and server for setting up a sequential & unique id generation service."
+  s.email       = %w{jamest@thereadyproject.com}
+  s.homepage    = 'http://github.com/readyproject/IDService'
+  s.summary     = 'A client and server for sequential & unique id generation'
+  s.description = 'IdService provides a client and server for setting up a sequential & unique id generation service.'
 
-  s.required_rubygems_version = ">= 1.3.6"
+  s.required_rubygems_version = '>= 1.3.6'
 
   s.add_dependency 'thrift'
   s.add_dependency 'activesupport'
@@ -25,6 +25,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'timecop'
 
   s.files        = Dir.glob('{bin,lib,ext}/**/*') + %w(LICENSE README.md)
-  s.executables  = ['id_server']
+  s.executables  = %w{id_server}
   s.require_path = 'lib'
 end
