@@ -1,6 +1,8 @@
 ID Service
 ==========
 
+[![Build Status](https://travis-ci.org/readyproject/IDService.png?branch=master)](https://travis-ci.org/readyproject/IDService)
+
 This gem provides both client and server classes for running an ID generation service, based on the Thrift framework.
 The overall architecture is based on Twitter's Snowflake service, but written in Ruby. The core ID Generator is very
 fast (10,000 IDs/sec) and the server is designed to be very fast as well (1,000 IDs/sec).
