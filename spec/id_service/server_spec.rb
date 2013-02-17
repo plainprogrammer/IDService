@@ -37,5 +37,15 @@ describe IdService::Server do
       server = IdService::Server.new(debug: true)
       server.debug.should be_true
     end
+
+    it 'parses options from config file' do
+      configfile = File.join(File.dirname(__FILE__), '../../ext/id_server.yml')
+      server = IdService::Server.new(config: configfile)
+      server.hostname.should eq('id.example.com')
+      server.port.should eq(8000)
+      server.host.should eq(6)
+      server.worker.should eq(6)
+      server.debug.should be_true
+    end
   end
 end

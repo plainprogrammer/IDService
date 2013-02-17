@@ -1,4 +1,5 @@
 require 'thrift'
+require 'yaml'
 require 'active_support/core_ext'
 
 require 'id_service/helpers'
@@ -13,6 +14,12 @@ module IdService
 
     def initialize(options = {})
       options.symbolize_keys!
+                                              \
+
+      unless options[:config].nil?
+        options = parse_config(options[:config]).merge(options)
+      end
+
       options = default_options.merge(options)
 
       options.each { |key, value| instance_variable_set('@' + key.to_s, value) }
@@ -27,12 +34,18 @@ module IdService
   private
     def default_options
       {
+          config:   nil,
           hostname: 'localhost',
           port:     9000,
           host:     1,
           worker:   1,
           debug:    false,
       }
+    end
+
+    def parse_config(configfile)
+      config = YAML.load_file(configfile).symbolize_keys
+      config[:id_server]
     end
   end
 end

@@ -13,6 +13,10 @@ opts = OptionParser.new do |opts|
   opts.separator ""
   opts.separator "Options:"
 
+  opts.on('--config [CONFIG]') do |v|
+    @config = File.join(Dir.pwd, v)
+  end
+
   opts.on('--host [HOST]') do |v|
     @host = v
   end
@@ -36,6 +40,7 @@ end
 opts.parse!
 
 options = {
+    config:   @config,
     hostname: @host,
     port:     @port,
     host:     @host_id,
