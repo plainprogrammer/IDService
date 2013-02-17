@@ -9,9 +9,13 @@ require 'id_generator'
 
 module IdService
   class Server < Thrift::SimpleServer
+    attr_reader :hostname, :port, :host, :worker, :debug
+
     def initialize(options = {})
       options.symbolize_keys!
       options = default_options.merge(options)
+
+      options.each { |key, value| instance_variable_set('@' + key.to_s, value) }
 
       @handler = IdGenerator.new(options)
       @processor = IdService::Processor.new(@handler)
