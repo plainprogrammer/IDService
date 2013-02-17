@@ -8,6 +8,7 @@ require 'id_service/helpers'
 module IdService
   class Client
     include ::Thrift::Client
+    include IdService::Helpers
 
     def initialize(options = {})
       options.symbolize_keys!
@@ -41,11 +42,11 @@ private
     end
 
     def send_get_id()
-      send_message('get_id', Get_id_args)
+      send_message('get_id', GetIdArgs)
     end
 
     def recv_get_id()
-      result = receive_message(Get_id_result)
+      result = receive_message(GetIdResult)
       return result.success unless result.success.nil?
       raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'get_id failed: unknown result')
     end
