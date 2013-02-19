@@ -2,6 +2,7 @@
 require 'optparse'
 require 'rubygems'
 require 'id_service/server'
+require 'daemons'
 
 opts = OptionParser.new do |opts|
   opts.banner = "IDServer: a Thrift-based ID generation service"
@@ -49,4 +50,11 @@ options = {
 }.delete_if {|key, value| value.nil? }
 
 server = IdService::Server.new(options)
-server.serve
+
+daemon_options = {
+    multiple: false
+}
+
+Daemons.run_proc('id_server', daemon_options) do
+  server.serve
+end
